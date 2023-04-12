@@ -1,6 +1,6 @@
 # Nested
 
-A go package to get deep nested value from map[string]any
+A go package to get deeply nested value from map[string]any
 
 ## Example
 ```json
