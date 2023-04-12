@@ -3,11 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"os"
 	"testing"
-
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/tykex/ckret"
 )
 
 func TestGet(t *testing.T) {
@@ -85,5 +81,3 @@ func TestGet(t *testing.T) {
 		t.Fail()
 	}
 }
-
-
