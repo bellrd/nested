@@ -1,0 +1,3 @@
+## Nested
+
+A go package to get deep nested value from map[string]any
