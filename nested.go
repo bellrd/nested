@@ -1,4 +1,4 @@
-package main
+package nested
 
 import (
 	"errors"
@@ -12,7 +12,7 @@ import (
 // if any previous key returns array then it tries to convert current key into integer for indexing.
 //
 // if any previous key returns non-indexable (number, string, boolean) and there are remaining keys to search
-// then it will return error and returns closest value it can find
+// then it will return error and returns closest value it can get
 func Get(data map[string]any, keys ...string) (any, error) {
 	value := any(data)
 	for _, key := range keys {
