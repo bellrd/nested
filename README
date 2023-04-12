@@ -1,3 +1,26 @@
-## Nested
+# Nested
+
 
 A go package to get deep nested value from map[string]any
+
+## Example
+```json
+{
+  "key": {
+      "nestedKey": [
+        {
+          "deeplyNestedKey": "value"
+        }
+      ]
+  }
+}
+
+```
+### Get
+```go
+value, err := nested.Get(data, "key", "nestedKey", "0", "deeplyNestedKey")
+```
+### Gets
+```go
+value, err := nested.Gets(data, "key.nestedKey.0.deeplyNestedKey")
+```

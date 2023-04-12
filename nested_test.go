@@ -3,7 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"testing"
+
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/tykex/ckret"
 )
 
 func TestGet(t *testing.T) {
@@ -80,4 +84,38 @@ func TestGet(t *testing.T) {
 	if value.(float64) != 43 {
 		t.Fail()
 	}
+}
+
+func TestWithCkret(t *testing.T) {
+	os.Setenv("ENVIRONMENT", "local")
+	ckret.Init(&aws.Config{Region: aws.String("ap-south-1")})
+
+	value, err := Get(ckret.GetCkret(), "kyc-comet", "INDIVIDUAL_CKYC", "PROVIDERS", "0")
+
+	if err != nil {
+		fmt.Printf("%v", err)
+		t.FailNow()
+	}
+
+	if value.(string) != "DECENTRO_CKYC" {
+		fmt.Printf("%v", value)
+		t.FailNow()
+	}
+}
+
+func TestGets(t *testing.T) {
+	os.Setenv("ENVIRONMENT", "local")
+	ckret.Init(&aws.Config{Region: aws.String("ap-south-1")})
+
+	value, err := Gets(ckret.GetCkret(), "kyc-comet.INDIVIDUAL_CKYC.PROVIDERS.0")
+	if err != nil {
+		fmt.Printf("%v", err)
+		t.FailNow()
+	}
+
+	if value.(string) != "DECENTRO_CKYC" {
+		fmt.Printf("%v", value)
+		t.FailNow()
+	}
+
 }
