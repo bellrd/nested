@@ -1,6 +1,5 @@
 # Nested
 
-
 A go package to get deep nested value from map[string]any
 
 ## Example
@@ -16,11 +15,11 @@ A go package to get deep nested value from map[string]any
 }
 
 ```
-### Get
+### Get(data map[string]any, keys ...string)
 ```go
 value, err := nested.Get(data, "key", "nestedKey", "0", "deeplyNestedKey")
 ```
-### Gets
+### Gets(data map[string]any, key string)
 ```go
 value, err := nested.Gets(data, "key.nestedKey.0.deeplyNestedKey")
 ```
