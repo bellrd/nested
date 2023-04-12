@@ -81,3 +81,35 @@ func TestGet(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestGets(t *testing.T) {
+	raw := []byte(`{
+    "k":[false, 3, 4, true, "string"],
+    "d": {
+      "e": [ { "name": "mango" }, { "name": "banana" } ],
+      "f": {"j": false}
+    },
+    "m": {
+      "0": "zero",
+      "1": {
+        "2": "two",
+        "3": [1,2,43]
+      }
+    }
+  }`)
+
+	var stuff map[string]any
+	err := json.Unmarshal(raw, &stuff)
+	if err != nil {
+		panic("can not parse test json")
+	}
+
+	value, err := Gets(stuff, "k.1")
+	if err != nil {
+		fmt.Println(err)
+		t.Fail()
+	}
+	if value.(float64) != 3 {
+		t.Fail()
+	}
+}
