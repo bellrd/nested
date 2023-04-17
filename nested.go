@@ -2,6 +2,7 @@ package nested
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -12,12 +13,16 @@ import (
 // if any previous key returns array then it tries to convert current key into integer for indexing.
 //
 // if any previous key returns non-indexable (number, string, boolean) and there are remaining keys to search
-// then it will return error and returns closest value it can get
+// then it will return error and returns closest value it can find
 func Get(data map[string]any, keys ...string) (any, error) {
 	value := any(data)
 	for _, key := range keys {
 		if isObject(value) {
-			value = value.(map[string]any)[key]
+			if temp, ok := value.(map[string]any)[key]; !ok {
+				return temp, errors.New(fmt.Sprintf("key doesn't exist or nil %v", key))
+			} else {
+				value = temp
+			}
 		} else if isArray(value) {
 			index, err := strconv.ParseInt(key, 10, 64)
 			if err != nil {
@@ -38,6 +43,24 @@ func Get(data map[string]any, keys ...string) (any, error) {
 // Gets() calls Get() after spliting key on dot (.)
 func Gets(data map[string]any, key string) (any, error) {
 	return Get(data, strings.Split(key, ".")...)
+}
+
+// Panic version of Get()
+func GetP(data map[string]any, keys ...string) any {
+	value, err := Get(data, keys...)
+	if err != nil {
+		panic(fmt.Sprintf("failed to get %v", strings.Join(keys, ".")))
+	}
+	return value
+}
+
+// Panic version of Gets()
+func GetsP(data map[string]any, key string) any {
+	value, err := Gets(data, key)
+	if err != nil {
+		panic(fmt.Sprintf("failed to get %v", key))
+	}
+	return value
 }
 
 func isObject(d any) bool {
